@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: myapp-server
-        image: hassanali70826/myapp:${DOCKER_TAG}
+        image: hassanali70826/myapp:tagVersion
         ports:
         - containerPort: 8080     
 ---
