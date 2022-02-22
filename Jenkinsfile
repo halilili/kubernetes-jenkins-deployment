@@ -61,15 +61,15 @@ pipeline {
            }
        }
        
-       stage("Deployment using jenkins kubernetes plugin"){
-           steps{
-               script {
-                   
-                  //kubernetesDeploy(configs: 'k8s/deployment-manifest.yml',kubeconfigId: 'Kubernetes-minikube-aws')
-                  kubernetesDeploy configs: 'k8s/deployment-manifest.yml', kubeConfig: [path: ''], kubeconfigId: 'Kubernetes-minikube-aws', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
-                   
+       
+       stage('Deployment using jenkins kubernetes plugin') {
+           steps {
+               withCredentials([
+                   string(credentialsId: 'aws-minikube-token', variable: 'api_token')
+                   ]) {
+                    sh 'kubectl --token $api_token --server https://192.168.49.2:8443 --insecure-skip-tls-verify=true apply -f k8s/deployment-manifest.yml'
                }
-           }
+            }
        }
        
   }
