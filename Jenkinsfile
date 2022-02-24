@@ -31,12 +31,16 @@ pipeline {
         
         stage('SonarQube Analysis') {
             steps{
-                echo "SonarQube Analysis Stage"
+                withSonarQubeEnv('sonarqube-8.5.1') { 
+                  sh "mvn sonar:sonar"
+                }
             }
         }
-      
-      stage('Jmeter Test') {
+        
+        
+        stage('Jmeter Unit Testing') {
             steps{
+                
                 sh "/home/ubuntu/jmeter/apache-jmeter-5.4.3/bin/jmeter.sh -n -t /home/ubuntu/jmeter/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l test.jtl"
             }
         }
@@ -68,7 +72,7 @@ pipeline {
        }
        
        
-       stage('Deployment using jenkins kubernetes plugin') {
+       stage('Deployment-Jenkins kubernetes plugin') {
            steps {
                withCredentials([
                    string(credentialsId: 'aws-minikube-token', variable: 'api_token')
