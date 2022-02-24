@@ -34,6 +34,12 @@ pipeline {
                 echo "SonarQube Analysis Stage"
             }
         }
+      
+      stage('Jmeter Test') {
+            steps{
+                sh "/home/ubuntu/jmeter/apache-jmeter-5.4.3/bin/jmeter.sh -n -t /home/ubuntu/jmeter/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l test.jtl"
+            }
+        }
     
         
         
