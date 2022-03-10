@@ -101,4 +101,3 @@ stage('Deployment using jenkins kubernetes plugin') {
                }
             }
        }
-
